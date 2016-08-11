@@ -1,0 +1,81 @@
+##############################################################
+##############################################################
+# This config is for comparing the menus on the live version
+# of panavision.com with a dev version, specifically:
+# http://dev-panavision.pantheonsite.io/
+#
+# To run: `wraith capture panavisionmenus`
+#
+##############################################################
+##############################################################
+
+# (required) The engine to run Wraith with. Examples: 'phantomjs', 'casperjs', 'slimerjs'
+#browser: "phantomjs"
+browser:  "casperjs"
+
+# (required) The domains to take screenshots of.
+domains:
+  current:  "http://panavision.com"
+  new:      "http://dev-panavision.pantheonsite.io"
+
+# (required) The paths to capture. All paths should exist for both of the domains specified above.
+paths:
+  menu_rental: 
+    path: '/history'
+    selector: '.pan-menu-pages-container'
+    before_capture:  'javascript/interact--panavisionmenu.js'
+  menu_spotlight:     
+    path: '/now-playing'
+    selector: '.pan-menu-pages-container'
+    before_capture:  'javascript/interact--panavisionmenu.js'
+  menu_news:
+    path: '/latest-news'
+    selector: '.pan-menu-pages-container'    
+    before_capture:  'javascript/interact--panavisionmenu.js'
+  menu_service:
+    path: '/theater-stages'
+    selector: '.pan-menu-pages-container'
+    before_capture:  'javascript/interact--panavisionmenu.js'
+  footer:
+    path: '/history'
+    selector: 'footer'
+    before_capture:  'javascript/interact--scrolltobottom.js'
+  masthead:
+    path: '/'
+    selector: 'nav'
+    before_capture:  'javascript/wait--casper.js'
+# (required) Screen widths (and optional height) to resize the browser to before taking the screenshot.
+screen_widths:
+  - 320x3500
+#  - 600x6500
+  - 768x3220
+  - 1024x5440
+  - 1280x5000
+
+# (optional) JavaScript file to execute before taking screenshot of every path. Default: nil
+#before_capture: 'javascript/disable_javascript--phantom.js'
+#before_capture: 'javascript/wait--phantom.js'
+before_capture:  'javascript/wait--casper.js'
+
+# (required) The directory that your screenshots will be stored in
+directory: 'shots/panavision-menus'
+
+# (required) Amount of fuzz ImageMagick will use when comparing images. A higher fuzz makes the comparison less strict.
+fuzz: '20%'
+
+# (optional) The maximum acceptable level of difference (in %) between two images before Wraith reports a failure. Default: 0
+threshold: 5
+
+# (optional) Specify the template (and generated thumbnail sizes) for the gallery output.
+gallery:
+  template: 'slideshow_template' # Examples: 'basic_template' (default), 'slideshow_template'
+  thumb_width:  200
+  thumb_height: 200
+
+# (optional) Choose which results are displayed in the gallery, and in what order. Default: alphanumeric
+# Options:
+#   alphanumeric - all paths (with or without a difference) are shown, sorted by path
+#   diffs_first - all paths (with or without a difference) are shown, sorted by difference size (largest first)
+#   diffs_only - only paths with a difference are shown, sorted by difference size (largest first)
+# Note: different screen widths are always grouped together.
+mode: diffs_first

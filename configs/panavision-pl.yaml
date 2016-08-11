@@ -1,0 +1,73 @@
+##############################################################
+##############################################################
+# This particular config is for comparing a live version of
+# of panavision.pl with a historical baseline of the site.
+#
+# To run:  `wraith latest panavision-pl`
+#
+##############################################################
+##############################################################
+# (required) The engine to run Wraith with. Examples: 'phantomjs', 'casperjs', 'slimerjs'
+#browser: "casperjs"
+browser: "phantomjs"
+
+# (required) The domains to take screenshots of.
+domains:
+  live:  "http://panavision.pl"
+
+# (required) The paths to capture. All paths should exist for both of the domains specified above.
+paths:
+  home-pl:  /
+  digital-pl:  /kamery/cyfrowe
+  film-pl:  /kamery/filmowe-35mm
+  anamorphic-pl:  /produkty/optyka/optyka-anamorfotyczna
+  spherical-pl:  /produkty/optyka/optyka-sferyczna
+  large-format-pl:  /produkty/optyka/large-format
+  remote-pl: /produkty/krany-g%C5%82owice
+  grip-pl:  /produkty/grip
+  worldwide-locations-pl:  /pl/lokalizacje-na-%C5%9Bwiecie
+  euope-pl:  /europa
+  africa-pl:  /afryka
+  product-pl:  /produkty/anamorphic-zooms
+  now-playing-pl: /filmy-wchodz%C4%85ce-do-kin
+  testimonils-pl: /opinie
+  panavision-news-pl: /newsy-panavision
+  features-pl: /artyku%C5%82y
+
+# (required) Screen widths (and optional height) to resize the browser to before taking the screenshot.
+# If you don't specify height it will default to 1500px 
+screen_widths:
+  - 320x3200
+#  - 600x768
+  - 768x3220
+  - 1024x5440
+  - 1280x5000
+
+# (optional) JavaScript file to execute before taking screenshot of every path. Default: nil
+#before_capture: 'javascript/disable_javascript--phantom.js'
+before_capture: 'javascript/wait--phantom.js'
+#before_capture:  'javascript/wait--casper.js'
+
+# (required) The directory that your screenshots will be stored in
+directory: 'shots/panavison-pl'
+history_dir: 'historical-baselines/panavision-pl-history'
+
+# (required) Amount of fuzz ImageMagick will use when comparing images. A higher fuzz makes the comparison less strict.
+fuzz: '20%'
+
+# (optional) The maximum acceptable level of difference (in %) between two images before Wraith reports a failure. Default: 0
+threshold: 5
+
+# (optional) Specify the template (and generated thumbnail sizes) for the gallery output.
+gallery:
+  template: 'slideshow_template' # Examples: 'basic_template' (default), 'slideshow_template'
+  thumb_width:  200
+  thumb_height: 400
+
+# (optional) Choose which results are displayed in the gallery, and in what order. Default: alphanumeric
+# Options:
+#   alphanumeric - all paths (with or without a difference) are shown, sorted by path
+#   diffs_first - all paths (with or without a difference) are shown, sorted by difference size (largest first)
+#   diffs_only - only paths with a difference are shown, sorted by difference size (largest first)
+# Note: different screen widths are always grouped together.
+mode: diffs_first

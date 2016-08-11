@@ -1,0 +1,73 @@
+##############################################################
+##############################################################
+# This particular config is for comparing a live version of
+# of cz.panavision.com with a historical baseline of the site.
+#
+# To run:  `wraith latest panavision-cz`
+#
+##############################################################
+##############################################################
+# (required) The engine to run Wraith with. Exa.czes: 'phantomjs', 'casperjs', 'slimerjs'
+#browser: "casperjs"
+browser: "phantomjs"
+
+# (required) The domains to take screenshots of.
+domains:
+  live:  "http://cz.panavision.com"
+
+# (required) The paths to capture. All paths should exist for both of the domains specified above.
+paths:
+  home-cz:  /
+  digital-cz: /technika/digitaln%C3%AD
+  film-cz: /technika/filmov%C3%A9
+  anamorphic-cz: /technika/anamorfick%C3%A9
+  spherical-cz: /technika/sferick%C3%A9
+  large-format-cz: /technika/velkoform%C3%A1tov%C3%A9
+  remote-cz: /technika/syst%C3%A9my
+  grip-cz:  /technika/grip
+  worldwide-locations-cz: /lokace-ve-sv%C4%9Bt%C4%9B
+  euope-cz: /lokace-ve-sv%C4%9Bt%C4%9B/evropa
+  africa-cz:  /lokace-ve-sv%C4%9Bt%C4%9B/afrika
+  product-cz: /technika/cz/anamorphic-zooms
+  now-playing-cz: /pr%C3%A1v%C4%9B-v-kinech
+  testimonials-cz: /ohlasy
+  panavision-news-cz: /panavision-v-m%C3%A9di%C3%ADch
+  features-cz: /p%C5%99edstavujeme
+
+# (required) Screen widths (and optional height) to resize the browser to before taking the screenshot.
+# If you don't specify height it will default to 1500px 
+screen_widths:
+  - 320x3200
+#  - 600x768
+  - 768x3220
+  - 1024x5440
+  - 1280x5000
+
+# (optional) JavaScript file to execute before taking screenshot of every path. Default: nil
+#before_capture: 'javascript/disable_javascript--phantom.js'
+before_capture: 'javascript/wait--phantom.js'
+#before_capture:  'javascript/wait--casper.js'
+
+# (required) The directory that your screenshots will be stored in
+directory: 'shots/panavison-cz'
+history_dir: 'historical-baselines/panavision-cz-history'
+
+# (required) Amount of fuzz ImageMagick will use when comparing images. A higher fuzz makes the comparison less strict.
+fuzz: '20%'
+
+# (optional) The maximum acceptable level of difference (in %) between two images before Wraith reports a failure. Default: 0
+threshold: 5
+
+# (optional) Specify the te.czate (and generated thumbnail sizes) for the gallery output.
+gallery:
+  template: 'slideshow_template' # Examples: 'basic_template' (default), 'slideshow_template'
+  thumb_width:  200
+  thumb_height: 400
+
+# (optional) Choose which results are di.czayed in the gallery, and in what order. Default: alphanumeric
+# Options:
+#   alphanumeric - all paths (with or without a difference) are shown, sorted by path
+#   diffs_first - all paths (with or without a difference) are shown, sorted by difference size (largest first)
+#   diffs_only - only paths with a difference are shown, sorted by difference size (largest first)
+# Note: different screen widths are always grouped together.
+mode: diffs_first
